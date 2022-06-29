@@ -1,57 +1,23 @@
-# Ant Design Pro
+# SpringBoot 项目初始模板
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+> by [程序员鱼皮知识星球](https://yupi.icu)
 
-## Environment Prepare
+Java SpringBoot 项目初始模板，整合了常用框架和示例代码，大家可以在此基础上快速开发自己的项目。
 
-Install `node_modules`:
+## 模板功能
 
-```bash
-npm install
-```
-
-or
-
-```bash
-yarn
-```
-
-## Provided Scripts
-
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
-
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
-
-```bash
-npm start
-```
-
-### Build project
-
-```bash
-npm run build
-```
-
-### Check code style
-
-```bash
-npm run lint
-```
-
-You can also use script to auto fix some lint error:
-
-```bash
-npm run lint:fix
-```
-
-### Test code
-
-```bash
-npm test
-```
-
-## More
-
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+- Spring Boot
+- Spring MVC
+- MySQL 驱动
+- MyBatis
+- MyBatis Plus
+- Spring Session Redis 分布式登录
+- Spring AOP
+- Apache Commons Lang3 工具类
+- Lombok 注解
+- Swagger + Knife4j 接口文档
+- Spring Boot 调试工具和项目处理器
+- 全局请求响应拦截器（记录日志）
+- 示例用户注册、登录、搜索功能
+- 示例单元测试类
+- 示例 SQL（用户表）
