@@ -4,7 +4,7 @@ spring:
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/my_db
+    url: jdbc:mysql://localhost:3306/openapi_db
     username: root
     password: 123456
   mvc:
@@ -13,14 +13,15 @@ spring:
   # session 失效时间（分钟）
   session:
     timeout: 86400
-    store-type: redis
+    #store-type: redis
+    store-type: none
   # redis 配置
   redis:
     port: 6379
     host: localhost
     database: 0
 server:
-  port: 7529
+  port: 8080
   servlet:
     context-path: /api
 mybatis-plus:
