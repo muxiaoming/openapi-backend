@@ -6,7 +6,6 @@ import com.zhou.project.exception.BusinessException;
 import com.zhou.project.mapper.InterfaceInfoMapper;
 import com.zhou.project.model.entity.InterfaceInfo;
 import com.zhou.project.service.InterfaceInfoService;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 /**
@@ -24,43 +23,44 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class InterfaceInfoServiceImpl extends ServiceImpl<InterfaceInfoMapper, InterfaceInfo>
-        implements InterfaceInfoService {
+  implements InterfaceInfoService {
 
-    /**
-     * 校验
-     *
-     * @param interfaceInfo
-     * @param add           是否为创建校验
-     */
-    @Override
-    public void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add) {
-        if (interfaceInfo == null) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR);
-        }
-        String name = interfaceInfo.getName();
-        String url = interfaceInfo.getUrl();
-        String method = interfaceInfo.getMethod();
-        Integer status = interfaceInfo.getStatus();
-        String description = interfaceInfo.getDescription();
-        String requestHeader = interfaceInfo.getRequestHeader();
-        String responseHeader = interfaceInfo.getResponseHeader();
-        // 创建时，所有参数必须非空
-        if (add) {
-            if (StringUtils.isAnyBlank(name, url, method, description, requestHeader, responseHeader) || ObjectUtils.anyNull(status)) {
-                throw new BusinessException(ErrorCode.PARAMS_ERROR);
-            }
-        }
-        if (StringUtils.isNotBlank(name) && name.length() > 50) {
-            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口名称过长");
-        }
-        //具体地对属性进行校验
+  /**
+   * 校验
+   *
+   * @param interfaceInfo
+   * @param add           是否为创建校验
+   */
+  @Override
+  public void validInterfaceInfo(InterfaceInfo interfaceInfo, boolean add) {
+    if (interfaceInfo == null) {
+      throw new BusinessException(ErrorCode.PARAMS_ERROR);
+    }
+    String name = interfaceInfo.getName();
+    String url = interfaceInfo.getUrl();
+    String method = interfaceInfo.getMethod();
+    Integer status = interfaceInfo.getStatus();
+    String description = interfaceInfo.getDescription();
+    String requestHeader = interfaceInfo.getRequestHeader();
+    String responseHeader = interfaceInfo.getResponseHeader();
+    // 创建时，所有参数必须非空
+    if (add) {
+      // ObjectUtils.anyNull(status)
+      if (StringUtils.isAnyBlank(name, url, method, description, requestHeader, responseHeader)) {
+        throw new BusinessException(ErrorCode.PARAMS_ERROR);
+      }
+    }
+    if (StringUtils.isNotBlank(name) && name.length() > 50) {
+      throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口名称过长");
+    }
+    //具体地对属性进行校验
         /*if (age != null && (age < 18 || age > 100)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "年龄不符合要求");
         }
         if (gender != null && !PostGenderEnum.getValues().contains(gender)) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "性别不符合要求");
         }*/
-    }
+  }
 }
 
 
