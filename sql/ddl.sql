@@ -1,10 +1,11 @@
 # 第一次执行
-create database my_db;
+create database if not exists openapi_db;
 
-use my_db;
+use openapi_db;
 
 # 用户表
-create table user
+drop table if exists user;
+create table if not exists user
 (
     id           bigint auto_increment comment 'id' primary key,
     username     varchar(256)       null comment '用户昵称',
@@ -12,6 +13,8 @@ create table user
     avatarUrl    varchar(1024)      null comment '用户头像',
     gender       tinyint            null comment '性别',
     userPassword varchar(512)       not null comment '密码',
+    accessKey    varchar(512) not null comment 'accessKey',
+    secretKey varchar(512) not null comment 'secretKey',
     phone        varchar(128)       null comment '电话',
     email        varchar(512)       null comment '邮箱',
     userStatus   int      default 0 not null comment '状态 0 - 正常',
