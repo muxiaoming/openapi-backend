@@ -2,11 +2,9 @@ package com.zhou.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zhou.openapiclientsdk.client.OpenApiClient;
 import com.zhou.project.annotation.AuthCheck;
-import com.zhou.project.common.BaseResponse;
-import com.zhou.project.common.DeleteRequest;
-import com.zhou.project.common.ErrorCode;
-import com.zhou.project.common.ResultUtils;
+import com.zhou.project.common.*;
 import com.zhou.project.constant.CommonConstant;
 import com.zhou.project.exception.BusinessException;
 import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoAddRequest;
@@ -14,6 +12,7 @@ import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.zhou.project.model.entity.InterfaceInfo;
 import com.zhou.project.model.entity.User;
+import com.zhou.project.model.enums.InterfaceInfoStatusEnum;
 import com.zhou.project.service.InterfaceInfoService;
 import com.zhou.project.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 帖子接口
@@ -40,6 +40,9 @@ public class InterfaceInfoController {
 
     @Resource
     private UserService userService;
+
+    @Resource
+    private OpenApiClient openApiClient;
 
     // region 增删改查
 
@@ -196,4 +199,70 @@ public class InterfaceInfoController {
 
     // endregion
 
+    // region 发布下线
+
+    /**
+     * 发布
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/online")
+    @AuthCheck(mustRole = "admin")//仅管理员可用
+    public BaseResponse<Boolean> onlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                     HttpServletRequest request) {
+
+        if (idRequest == null && idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        //判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (Objects.isNull(oldInterfaceInfo)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //判断该接口是否可以调用
+        com.zhou.openapiclientsdk.model.User user = new com.zhou.openapiclientsdk.model.User();
+        user.setUsername("zhou");
+        String username = openApiClient.getUsernameByPost(user);
+        if (StringUtils.isBlank(username)) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "接口签证失败");
+        }
+        //仅本人或者管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.ONLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+
+    /**
+     * 下线
+     *
+     * @param idRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/offline")
+    @AuthCheck(mustRole = "admin")
+    public BaseResponse<Boolean> offlineInterfaceInfo(@RequestBody IdRequest idRequest,
+                                                      HttpServletRequest request) {
+        if (idRequest == null && idRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = idRequest.getId();
+        //判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (Objects.isNull(oldInterfaceInfo)) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        //仅本人或者管理员可修改
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setId(id);
+        interfaceInfo.setStatus(InterfaceInfoStatusEnum.OFFLINE.getValue());
+        boolean result = interfaceInfoService.updateById(interfaceInfo);
+        return ResultUtils.success(result);
+    }
+    // endregion
 }
