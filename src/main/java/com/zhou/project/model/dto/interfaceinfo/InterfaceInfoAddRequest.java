@@ -28,6 +28,11 @@ public class InterfaceInfoAddRequest implements Serializable {
     private String method;
 
     /**
+     * 请求参数
+     */
+    private String requestParams;
+
+    /**
      * 接口状态:0:关闭,1开启
      */
     private Integer status;

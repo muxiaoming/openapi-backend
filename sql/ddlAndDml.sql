@@ -8,6 +8,7 @@ create table if not exists `interface_info`
     `name` varchar(256) not null comment '接口名称',
     `url` varchar(512) not null comment '接口地址',
     `method` varchar(256) not null comment '方法类型',
+    `requestParams` text not null comment '请求参数',
     `status` int default 0 not null comment '接口状态:0:关闭,1开启',
     `description` varchar(256) null comment '接口描述',
     `requestHeader` text not null comment '请求头',

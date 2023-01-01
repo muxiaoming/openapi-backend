@@ -44,6 +44,15 @@ public class InterfaceInfo implements Serializable {
     private String method;
 
     /**
+     * 请求参数: type可以使用json的类型
+     * [
+     *   {"name":"username", "type":"string"},
+     *   {"name":"xxx", "type":"number"}
+     * ]
+     */
+    private String requestParams;
+
+    /**
      * 接口状态:0:关闭,1开启
      */
     private Integer status;
