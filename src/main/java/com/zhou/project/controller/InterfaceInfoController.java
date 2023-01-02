@@ -2,12 +2,14 @@ package com.zhou.project.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import com.zhou.openapiclientsdk.client.OpenApiClient;
 import com.zhou.project.annotation.AuthCheck;
 import com.zhou.project.common.*;
 import com.zhou.project.constant.CommonConstant;
 import com.zhou.project.exception.BusinessException;
 import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoAddRequest;
+import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoInvokeRequest;
 import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoQueryRequest;
 import com.zhou.project.model.dto.interfaceinfo.InterfaceInfoUpdateRequest;
 import com.zhou.project.model.entity.InterfaceInfo;
@@ -265,4 +267,37 @@ public class InterfaceInfoController {
         return ResultUtils.success(result);
     }
     // endregion
+
+    /**
+     * 接口测试调用
+     *
+     * @param interfaceInfoInvokeRequest
+     * @param request
+     * @return
+     */
+    @PostMapping("/invoke")
+    public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
+                                                      HttpServletRequest request) {
+        if (interfaceInfoInvokeRequest == null && interfaceInfoInvokeRequest.getId() <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        long id = interfaceInfoInvokeRequest.getId();
+        String userRequestParams = interfaceInfoInvokeRequest.getUserRequestParams();
+        // 判断是否存在
+        InterfaceInfo oldInterfaceInfo = interfaceInfoService.getById(id);
+        if (oldInterfaceInfo == null) {
+            throw new BusinessException(ErrorCode.NOT_FOUND_ERROR);
+        }
+        if (oldInterfaceInfo.getStatus() == InterfaceInfoStatusEnum.OFFLINE.getValue()) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR, "接口已关闭");
+        }
+        User loginUser = userService.getLoginUser(request);
+        String accessKey = loginUser.getAccessKey();
+        String secretKey = loginUser.getSecretKey();
+        OpenApiClient tempClient = new OpenApiClient(accessKey, secretKey);
+        Gson gson = new Gson();
+        com.zhou.openapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.zhou.openapiclientsdk.model.User.class);
+        String usernameByPost = tempClient.getUsernameByPost(user);
+        return ResultUtils.success(usernameByPost);
+    }
 }
