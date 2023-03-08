@@ -2,7 +2,7 @@
 use openapi_db;
 
 -- 接口信息表
-create table if not exists `interface_info`
+create table if not exists openapi_db.`interface_info`
 (
     `id` bigint not null auto_increment comment '主键' primary key,
     `name` varchar(256) not null comment '接口名称',
@@ -40,3 +40,17 @@ insert into `interface_info` (`name`, `url`, `method`, `status`, `description`, 
 insert into `interface_info` (`name`, `url`, `method`, `status`, `description`, `requestHeader`, `responseHeader`, `createId`) values ('杜鹤轩', 'www.waylon-abernathy.io', 'Wpa', 0, 'vvPc', '雷炫明', '陶志泽', 8111431);
 insert into `interface_info` (`name`, `url`, `method`, `status`, `description`, `requestHeader`, `responseHeader`, `createId`) values ('谢绍辉', 'www.faustino-powlowski.com', 'AAt', 0, 'cBAbq', '孙健雄', '李雨泽', 38508412);
 insert into `interface_info` (`name`, `url`, `method`, `status`, `description`, `requestHeader`, `responseHeader`, `createId`) values ('陆昊天', 'www.landon-donnelly.net', 'n3Iv', 1, '0C', '孔志泽', '周文', 5640);
+
+-- 用户调用接口关系表
+create table if not exists openapi_db.`user_interface_info`
+(
+    `id`              bigint                             not null auto_increment comment '主键' primary key,
+    `userId`          bigint                             not null comment '调用用户 id',
+    `interfaceInfoId` bigint                             not null comment '接口 id',
+    `totalNum`        int      default 0                 not null comment '部调用次数',
+    `leftNum`         int      default 0                 not null comment '剩余调用次数',
+    `status`          int      default 0                 not null comment '0-正常, 1-禁用',
+    `createTime`      datetime default CURRENT_TIMESTAMP not null comment '创建时间',
+    `updateTime`      datetime default CURRENT_TIMESTAMP not null on update CURRENT_TIMESTAMP comment '更新时间',
+    `isDelete`        tinyint  default 0                 not null comment '是否删除0-未删, 1-已删'
+) comment '用户调用接口关系表';

@@ -296,7 +296,8 @@ public class InterfaceInfoController {
         String secretKey = loginUser.getSecretKey();
         OpenApiClient tempClient = new OpenApiClient(accessKey, secretKey);
         Gson gson = new Gson();
-        com.zhou.openapiclientsdk.model.User user = gson.fromJson(userRequestParams, com.zhou.openapiclientsdk.model.User.class);
+        com.zhou.openapiclientsdk.model.User user = gson.fromJson(userRequestParams,
+                com.zhou.openapiclientsdk.model.User.class);
         String usernameByPost = tempClient.getUsernameByPost(user);
         return ResultUtils.success(usernameByPost);
     }
