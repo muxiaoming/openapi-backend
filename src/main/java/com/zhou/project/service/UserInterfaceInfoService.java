@@ -17,4 +17,13 @@ public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
      * @param add 是否为创建校验
      */
     void validUserInterfaceInfo(UserInterfaceInfo userInterfaceInfo, boolean add);
+
+    /**
+     * 调用次数加1
+     *
+     * @param interfaceInfoId
+     * @param userId
+     * @return
+     */
+    boolean invokeCount(long interfaceInfoId, long userId);
 }

@@ -40,6 +40,28 @@ public class UserInterfaceInfoServiceImpl extends ServiceImpl<UserInterfaceInfoM
         }
 
     }
+
+    /**
+     * 调用次数加1
+     *
+     * @param interfaceInfoId
+     * @param userId
+     * @return
+     */
+    @Override
+    public boolean invokeCount(long interfaceInfoId, long userId) {
+        // 校验
+        if (interfaceInfoId <= 0 || userId <= 0) {
+            throw new BusinessException(ErrorCode.PARAMS_ERROR);
+        }
+        return this.lambdaUpdate()
+                .eq(UserInterfaceInfo::getId, interfaceInfoId)
+                .eq(UserInterfaceInfo::getUserId, userId)
+                // 这里要加锁和事务, 防止狗日的用户在次数快用完时疯狂刷调用次数, 调用次数还得大于0, 后面再来实现这个
+                //.gt(UserInterfaceInfo::getLeftNum, 0)
+                .setSql("leftNum = leftNum - 1, totalNum = totalNum +1")
+                .update();
+    }
 }
 
 
