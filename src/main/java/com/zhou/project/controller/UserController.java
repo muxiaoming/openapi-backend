@@ -223,7 +223,11 @@ public class UserController {
             current = userQueryRequest.getCurrent();
             size = userQueryRequest.getPageSize();
         }
+        //此种方式并不好, 有大坑,不推荐使用
         QueryWrapper<User> queryWrapper = new QueryWrapper<>(userQuery);
+        //LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>(userQuery);
+        //queryWrapper.like(User::getUserName, userQuery.getUserName());
+        //queryWrapper.eq(StringUtils.isNotBlank(userQuery.getUserAccount()),User::getUserAccount, userQuery.getUserAccount());
         Page<User> userPage = userService.page(new Page<>(current, size), queryWrapper);
         Page<UserVO> userVOPage = new PageDTO<>(userPage.getCurrent(), userPage.getSize(), userPage.getTotal());
         List<UserVO> userVOList = userPage.getRecords().stream().map(user -> {
