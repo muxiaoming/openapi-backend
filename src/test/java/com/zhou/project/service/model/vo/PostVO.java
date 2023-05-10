@@ -1,6 +1,6 @@
-package com.zhou.project.model.vo;
+package com.zhou.project.service.model.vo;
 
-import com.zhou.project.model.entity.Post;
+import com.zhou.project.service.model.entity.Post;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

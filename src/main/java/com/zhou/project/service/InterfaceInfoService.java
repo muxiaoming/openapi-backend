@@ -1,8 +1,7 @@
 package com.zhou.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zhou.project.model.entity.InterfaceInfo;
-
+import com.zhou.common.model.entity.InterfaceInfo;
 /**
  * @Author: code muxiaoming
  * @Date Created in 2022/11/19 20:47

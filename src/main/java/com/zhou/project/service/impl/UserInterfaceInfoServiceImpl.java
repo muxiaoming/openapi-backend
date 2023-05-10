@@ -1,11 +1,10 @@
 package com.zhou.project.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhou.common.model.entity.UserInterfaceInfo;
 import com.zhou.project.common.ErrorCode;
 import com.zhou.project.exception.BusinessException;
 import com.zhou.project.mapper.UserInterfaceInfoMapper;
-import com.zhou.project.model.entity.UserInterfaceInfo;
-import com.zhou.project.service.UserInterfaceInfoService;
 import org.springframework.stereotype.Service;
 
 /**

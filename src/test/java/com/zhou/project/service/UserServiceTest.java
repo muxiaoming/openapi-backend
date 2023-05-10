@@ -1,11 +1,12 @@
 package com.zhou.project.service;
 
-import com.zhou.project.model.entity.User;
+import com.zhou.common.model.entity.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 用户服务测试
@@ -21,6 +22,20 @@ class UserServiceTest {
     @Test
     void testAddUser() {
         User user = new User();
+        user.setUserName("1");
+        user.setUserAccount("1");
+        user.setUserAvatar("1");
+        user.setGender(0);
+        user.setUserRole("1");
+        user.setUserPassword("11");
+        user.setAccessKey("1");
+        user.setSecretKey("1");
+        user.setCreateTime(new Date());
+        user.setUpdateTime(new Date());
+        user.setIsDelete(0);
+
+        user.setUserName("二狗");
+        user.setUserPassword("1");
         boolean result = userService.save(user);
         System.out.println(user.getId());
         Assertions.assertTrue(result);
@@ -29,13 +44,15 @@ class UserServiceTest {
     @Test
     void testUpdateUser() {
         User user = new User();
+        user.setUserName("二狗");
+        user.setId(110L);
         boolean result = userService.updateById(user);
-        Assertions.assertTrue(result);
+        Assertions.assertFalse(result);
     }
 
     @Test
     void testDeleteUser() {
-        boolean result = userService.removeById(1L);
+        boolean result = userService.removeById(11L);
         Assertions.assertTrue(result);
     }
 

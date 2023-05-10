@@ -1,7 +1,7 @@
 package com.zhou.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhou.project.model.entity.User;
+import com.zhou.common.model.entity.User;
 
 /**
  * @Entity com.zhou.project.model.domain.User

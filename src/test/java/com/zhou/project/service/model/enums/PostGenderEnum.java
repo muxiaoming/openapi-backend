@@ -1,34 +1,30 @@
-package com.zhou.project.model.enums;
+package com.zhou.project.service.model.enums;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 帖子审核状态枚举
+ * 帖子性别枚举
  *
  * @author zhou
  */
-public enum PostReviewStatusEnum {
+public enum PostGenderEnum {
 
     /**
-     * 待审核
+     * 男
      */
-    REVIEWING("待审核", 0),
+    MALE("男", 0),
     /**
-     * 通过
+     * 女
      */
-    PASS("通过", 1),
-    /**
-     * 拒绝
-     */
-    REJECT("拒绝", 2);
+    FEMALE("女", 1);
 
     private final String text;
 
     private final int value;
 
-    PostReviewStatusEnum(String text, int value) {
+    PostGenderEnum(String text, int value) {
         this.text = text;
         this.value = value;
     }

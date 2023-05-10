@@ -1,4 +1,4 @@
-package com.zhou.project.model.enums;
+package com.zhou.project.service.model.enums;
 
 import java.util.Arrays;
 import java.util.List;

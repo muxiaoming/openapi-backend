@@ -16,8 +16,31 @@
     <description>openapi_backend 初始项目</description>
     <properties>
         <java.version>1.8</java.version>
+        <dubbo.version>3.0.9</dubbo.version>
+        <spring-cloud.version>2021.0.5</spring-cloud.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.zhou</groupId>
+            <artifactId>openapi-common</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.dubbo/dubbo -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+            <!--父pom.xml管理定义了是pom类型，子pom.xml不写<type>pom</type>项目中就不能正常使用相关类。-->
+            <!--相当于是引用了父项目的pom.xml文件,为了简化引用, 比如要引用的依赖太多, 将其放到一个父项目的pom.xml中
+                直接引用父pom.xml即可, 看起来简洁-->
+            <!--<type>pom</type>-->
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
         <dependency>
             <groupId>com.zhou</groupId>
             <artifactId>openapi-client-sdk</artifactId>

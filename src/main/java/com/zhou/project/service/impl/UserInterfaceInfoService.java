@@ -1,13 +1,13 @@
-package com.zhou.project.service;
+package com.zhou.project.service.impl;
 
-import com.zhou.project.model.entity.UserInterfaceInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zhou.common.model.entity.UserInterfaceInfo;
 
 /**
-* @author ASUS
-* @description 针对表【user_interface_info(用户调用接口关系表)】的数据库操作Service
-* @createDate 2023-03-08 23:29:20
-*/
+ * @author ASUS
+ * @description 针对表【user_interface_info(用户调用接口关系表)】的数据库操作Service
+ * @createDate 2023-03-08 23:29:20
+ */
 public interface UserInterfaceInfoService extends IService<UserInterfaceInfo> {
 
     /**

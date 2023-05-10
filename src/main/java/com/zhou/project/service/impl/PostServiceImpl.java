@@ -1,12 +1,12 @@
 package com.zhou.project.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zhou.common.model.entity.Post;
+import com.zhou.common.model.enums.PostGenderEnum;
+import com.zhou.common.model.enums.PostReviewStatusEnum;
 import com.zhou.project.common.ErrorCode;
 import com.zhou.project.exception.BusinessException;
 import com.zhou.project.mapper.PostMapper;
-import com.zhou.project.model.entity.Post;
-import com.zhou.project.model.enums.PostGenderEnum;
-import com.zhou.project.model.enums.PostReviewStatusEnum;
 import com.zhou.project.service.PostService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

@@ -1,7 +1,7 @@
 package com.zhou.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zhou.project.model.entity.Post;
+import com.zhou.common.model.entity.Post;
 
 /**
  * @author zhouli
