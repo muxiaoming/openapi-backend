@@ -1,4 +1,4 @@
-package com.zhou.project.service.impl;
+package com.zhou.project.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zhou.common.model.entity.UserInterfaceInfo;

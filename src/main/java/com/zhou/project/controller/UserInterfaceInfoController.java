@@ -16,7 +16,7 @@ import com.zhou.project.model.dto.userinterfaceinfo.UserInterfaceInfoAddRequest;
 import com.zhou.project.model.dto.userinterfaceinfo.UserInterfaceInfoQueryRequest;
 import com.zhou.project.model.dto.userinterfaceinfo.UserInterfaceInfoUpdateRequest;
 import com.zhou.project.service.UserService;
-import com.zhou.project.service.impl.UserInterfaceInfoService;
+import com.zhou.project.service.UserInterfaceInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
