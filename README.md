@@ -9,7 +9,6 @@ Java SpringBoot 项目初始模板，整合了常用框架和示例代码，大�
 - MySQL 驱动
 - MyBatis
 - MyBatis Plus
-- Spring Session Redis 分布式登录
 - Spring AOP
 - Apache Commons Lang3 工具类
 - Lombok 注解
