@@ -126,7 +126,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         if (currentUser == null || currentUser.getId() == null) {
             throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        // 从数据库查询（追求性能的话可以直接走redis缓存(登录时要存),
+        // 但有可能用户会更新自己的用户信息, 会产生缓存一致性问题）
         long userId = currentUser.getId();
         currentUser = this.getById(userId);
         if (currentUser == null) {

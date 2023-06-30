@@ -1,6 +1,6 @@
 spring:
   application:
-    name: springboot-init
+    name: openapi-backend
   # DataSource Config
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -21,7 +21,8 @@ spring:
     host: localhost
     database: 0
 server:
-  port: 8080
+  #address: 0.0.0.0
+  port: 8070
   servlet:
     context-path: /api
 mybatis-plus:
@@ -37,7 +38,7 @@ mybatis-plus:
 # application.yml (Spring Boot)
 dubbo:
   application:
-    name: dubbo-springboot-demo-provider
+    name: dubbo-openapi-backend
   protocol:
     name: dubbo
     port: -1

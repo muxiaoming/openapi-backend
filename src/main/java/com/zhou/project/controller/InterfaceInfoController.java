@@ -1,8 +1,10 @@
 package com.zhou.project.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.zhou.common.model.entity.InterfaceInfo;
 import com.zhou.common.model.entity.User;
 import com.zhou.common.model.enums.InterfaceInfoStatusEnum;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,6 +35,7 @@ import java.util.Objects;
  *
  * @author zhou
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/interfaceInfo")
 @Slf4j
@@ -185,14 +189,28 @@ public class InterfaceInfoController {
         String sortField = interfaceInfoQueryRequest.getSortField();
         String sortOrder = interfaceInfoQueryRequest.getSortOrder();
         String description = interfaceInfoQuery.getDescription();
-        // content 需支持模糊搜索
-        interfaceInfoQuery.setDescription(null);
+        String name = interfaceInfoQuery.getName();
+        String method = interfaceInfoQuery.getMethod();
+        String requestHeader = interfaceInfoQuery.getRequestHeader();
+        String responseHeader = interfaceInfoQuery.getResponseHeader();
+        String url = interfaceInfoQuery.getUrl();
+        Date createTime = interfaceInfoQuery.getCreateTime();
+        Date updateTime = interfaceInfoQuery.getUpdateTime();
+        Integer status = interfaceInfoQuery.getStatus();
         // 限制爬虫
         if (size > 50) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
-        QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>(interfaceInfoQuery);
+        QueryWrapper<InterfaceInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.like(StringUtils.isNotBlank(description), "description", description);
+        queryWrapper.like(StringUtils.isNotBlank(name), "name", name);
+        queryWrapper.eq(StringUtils.isNotBlank(method), "method", method);
+        queryWrapper.like(StringUtils.isNotBlank(requestHeader), "requestHeader", requestHeader);
+        queryWrapper.like(StringUtils.isNotBlank(responseHeader), "responseHeader", responseHeader);
+        queryWrapper.like(StringUtils.isNotBlank(url), "url", url);
+        queryWrapper.eq(status != null, "status", status);
+        queryWrapper.le(ObjectUtil.isNotNull(createTime), "createTime", createTime);
+        queryWrapper.le(ObjectUtil.isNotNull(updateTime), "updateTime", updateTime);
         queryWrapper.orderBy(StringUtils.isNotBlank(sortField),
                 sortOrder.equals(CommonConstant.SORT_ORDER_ASC), sortField);
         Page<InterfaceInfo> interfaceInfoPage = interfaceInfoService.page(new Page<>(current, size), queryWrapper);
@@ -278,6 +296,7 @@ public class InterfaceInfoController {
     @PostMapping("/invoke")
     public BaseResponse<Object> invokeInterfaceInfo(@RequestBody InterfaceInfoInvokeRequest interfaceInfoInvokeRequest,
                                                       HttpServletRequest request) {
+        log.info("请求入参为:{}", interfaceInfoInvokeRequest);
         if (interfaceInfoInvokeRequest == null && interfaceInfoInvokeRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
         }
@@ -295,10 +314,21 @@ public class InterfaceInfoController {
         String accessKey = loginUser.getAccessKey();
         String secretKey = loginUser.getSecretKey();
         OpenApiClient tempClient = new OpenApiClient(accessKey, secretKey);
-        Gson gson = new Gson();
-        com.zhou.openapiclientsdk.model.User user = gson.fromJson(userRequestParams,
-                com.zhou.openapiclientsdk.model.User.class);
-        String usernameByPost = tempClient.getUsernameByPost(user);
+        com.zhou.openapiclientsdk.model.User user = null;
+        String usernameByPost = null;
+        try {
+            Gson gson = new Gson();
+            user = gson.fromJson(userRequestParams,
+                    com.zhou.openapiclientsdk.model.User.class);
+            log.info("invoke interface params :{}", user);
+            usernameByPost = tempClient.getUsernameByPost(user);
+        } catch (JsonSyntaxException e) {
+            log.error("调用接口的请求参数格式化异常: {}", e.getMessage(), e);
+            throw new BusinessException(ErrorCode.PARAMS_FORMAT_ERROR);
+        } catch (Exception e) {
+            log.error("调用接口异常: {}", e.getMessage(), e);
+            throw new BusinessException(ErrorCode.INTERFACE_INVOKE_ERROR);
+        }
         return ResultUtils.success(usernameByPost);
     }
 }

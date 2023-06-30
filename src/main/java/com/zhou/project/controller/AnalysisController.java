@@ -14,6 +14,7 @@ import com.zhou.project.exception.BusinessException;
 import com.zhou.project.mapper.UserInterfaceInfoMapper;
 import com.zhou.project.service.InterfaceInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  * @DateCreatedIn: 2023/5/15 20:03
  * @Description:
  */
+@CrossOrigin
 @RestController
 @Slf4j
 @RequestMapping("/analysis")
@@ -42,7 +44,7 @@ public class AnalysisController {
     @GetMapping("/top/interface/invoke")
     @AuthCheck(mustRole = "admin")
     public BaseResponse<List<InterfaceInfoVO>> listTopInvokeInterfaceInfo() {
-        List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopInvokeInterfaceInfo(3);
+        List<UserInterfaceInfo> userInterfaceInfoList = userInterfaceInfoMapper.listTopInvokeInterfaceInfo(4);
         if (CollectionUtil.isEmpty(userInterfaceInfoList)) {
             throw new BusinessException(ErrorCode.SYSTEM_ERROR);
         }
